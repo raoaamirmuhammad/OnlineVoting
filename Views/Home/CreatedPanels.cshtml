@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "CreatedPanels";
+}
+
+<h2>@ViewBag.panel</h2>
+    <input type="text" placeholder="MM/DD/YYYY" id="electionDate">
+    <input type="submit" value="submit" onclick="f1()"/>
+<script src="~/Scripts/jquery-2.2.3.js"></script>
+<script>
+    function f1() {
+        var date = document.getElementById("electionDate").value;
+        var url = '../Home/setElectionDate';
+        var panel = '@ViewBag.panel';
+        $.ajax({
+            url: '../Home/setElectionDate',
+            data: { 'date': date, 'panel': panel },
+            type: "post",
+            success: function (data) {
+                if(data)
+                    alert(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("error");
+            }
+        });
+    
+    }
+
+</script>
+<div class="row">
+    <div class="col-md-4">
+        <h2>Candidates List</h2>
+        <table class="jumbotron1">
+            <tr>
+                <td style="width:100px"><b><i>Name</i></b></td>
+                <td style="width:100px" align="center"><b><i>Verify</i></b></td>
+            </tr>
+            @foreach(var i in ViewBag.candidatesRequest)
+            { 
+                <tr>
+                <td>@i</td>
+                    <td align="center">
+                        <button>@Html.ActionLink("O", "saveCandidate", "Home", new { name = i, panel = ViewBag.panel }, null)</button>
+                        <button>@Html.ActionLink("X", "ignoreCandidate", "Home", new { name = i, panel = ViewBag.panel }, null)</button>
+                    </td>
+            </tr>
+            }
+        </table>
+    </div>
+    <div class="col-md-4">
+        <h2>Poll</h2>
+            <table class="jumbotron1">
+                <tr>
+                    <td style="width:100px"><b><i>Name</i></b></td>
+                    <td style="width:100px" align="center"><b><i>Result</i></b></td>
+                </tr>
+                @foreach (var i in ViewBag.panelscandidates)
+                { 
+                <tr>
+                    <td>@i.Candidate_Id</td>
+                    <td align="center"><input type="text" readonly size="5" value="@i.Result"/></td>
+                </tr>
+                }
+            </table>
+    </div>
+    <div class="col-md-4">
+        <h2>Voters List</h2>
+        <table class="jumbotron1">
+            <tr>
+                <td style="width:100px"><b><i>Name</i></b></td>
+                <td style="width:100px" align="center"><b><i>Verify</i></b></td>
+            </tr>
+            @foreach(var i in ViewBag.votersRequest)
+            {
+                <tr>
+                <td>@i</td>
+                    <td align="center">
+                        <button>@Html.ActionLink("O", "saveVoter", "Home", new { name = i, panel = ViewBag.panel }, null)</button>
+                        <button>@Html.ActionLink("X", "ignoreVoter", "Home", new { name = i, panel = ViewBag.panel }, null)</button>
+                    </td>
+            </tr>
+            }
+         </table>
+    </div>
+</div>
+

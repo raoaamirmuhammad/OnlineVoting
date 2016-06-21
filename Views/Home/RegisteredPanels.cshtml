@@ -1,0 +1,98 @@
+﻿@model OnlineVoting.Models.Candidate
+@{
+    ViewBag.Title = "RegisteredPanels";
+}
+
+<h2>@ViewBag.panel</h2>
+<script src="~/Scripts/jquery-2.2.3.js"></script>
+<script>
+    function f1(elem)
+    {
+        var status = false;
+        var id = elem.id;
+        var panel = '@ViewBag.panel';
+        $.ajax({
+            url: '../Home/castVote',
+            data: { 'Candidate_Id': id, 'panel': panel },
+            type: "post",
+            success: function (data) {
+                if (data != "0") {
+                    alert("Cast Successfully"+data);
+                    document.getElementById(id).innerHTML = data;
+                }
+                else
+                {
+                    alert("Can't cast this time"+data);
+                    
+                }
+                    
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("Can't cast this time" + data);
+            }
+        });
+        
+    }
+
+</script>
+<div class="row">
+    <div class="col-md-4">
+        <h2>Candidates List</h2>
+        <table class="jumbotron1">
+            <tr>
+                <td style="width:100px"><input type="text" readonly value="Name"/></td>
+                @*<td style="width:100px" align="center"><b><i>Verify</i></b></td>*@
+            </tr>
+            @foreach (var i in ViewBag.candidates)
+            { 
+            <tr>
+                <td>@i.Candidate_Id</td>
+                @*<td align="center"><input type="checkbox" /></td>*@
+            </tr>
+            }
+         </table>
+    </div>
+    <div class="col-md-4">
+        <h2>Poll</h2>
+        <table class="jumbotron1">
+            <tr>
+                <td style="width:100px"><b><i>Name</i></b></td>
+                <td style="width:100px" align="center"><b><i>Vote</i></b></td>
+                @*<td style="width:100px" align="center"><b><i>Result</i></b></td>*@
+            </tr>
+            @foreach (var i in ViewBag.candidates)
+            {
+                <tr>
+                    <td>@i.Candidate_Id</td>
+                    
+                    @*@{String s = i.Result;}
+                   
+                   
+                   <td> <input type="text" onblur="f1(this)" placeholder="new" value="" id="@i.Candidate_Id" /></td>
+                    
+                    @{String s1 = i.Candidate_Id + "a";}
+                    <input type="hidden" name="@s1" id="@s1"  value="@i.Candidate_Id"/>*@
+                    <td align="center"><button onclick="f1(this)"  name="@i.Candidate_Id" id="@i.Candidate_Id" value="@i.Result" >@i.Result</button></td>
+                </tr>
+            }
+        </table>
+
+    </div>
+    <div class="col-md-4">
+        <h2>Voters List</h2>
+        <table class="jumbotron1">
+            <tr>
+                <td style="width:100px"><input type="text" readonly value="Name" /></td>
+                @*<td style="width:100px" align="center"><b><i>Verify</i></b></td>*@
+            </tr>
+            @foreach(var i in ViewBag.voters)
+            { 
+            <tr>
+                <td>@i</td>
+                @*<td align="center"><input type="checkbox" /></td>*@
+            </tr>
+            }
+         </table>
+    </div>
+</div>
+

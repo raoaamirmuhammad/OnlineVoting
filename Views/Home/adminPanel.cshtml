@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "adminPanel";
+}
+@*<script src="~/Scripts/jquery-2.2.3.js"></script>
+<script>
+    function f1(elem)
+    {
+        var status = false;
+        var id = elem.id;
+        alert("hello1 f1 called" + id);
+        var panel = '@ViewBag.panel';
+        alert("before ajax");
+        $.ajax({
+            url: '../Home/castVote',
+            data: { 'Candidate_Id': id, 'panel': panel },
+            type: "post",
+            success: function (data) {
+                if (data != "0") {
+                    alert("Cast Successfully"+data);
+                    document.getElementById(id).innerHTML = data;
+                }
+                else
+                {
+                    alert("Can't cast this time"+data);
+
+                }
+
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("Can't cast this time" + data);
+            }
+        });
+
+    }
+
+</script>*@
+
+<h2>adminPanel</h2>
+<div class="row">
+    <div class="col-md-4">
+        <h2>Panels</h2>
+        <table class="jumbotron1">
+            <tr>
+                <td style="width:100px"><input type="text" readonly value="Name" /></td>
+            </tr>
+            @foreach (var i in ViewBag.allPanels)
+            {
+                <tr>
+                    <td>@i.Panel_Id</td>
+                    <td>
+                        @Html.ActionLink("remove", "removePanelAsAdmin", "Home", new { panel = i.Panel_Id }, null)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-md-4">
+        <h2>All Users</h2>
+        <table class="jumbotron1">
+            <tr>
+                <td style="width:100px"><b><i>All Users</i></b></td>
+                </tr>
+            @foreach (var i in ViewBag.allUsers)
+            {
+                <tr>
+                    <td>@i.name</td>
+                    <td>
+                        @Html.ActionLink("remove", "removeUserAsAdmin", "Home", new { User = i.name }, null)
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div>
+   
+</div>

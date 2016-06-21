@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "AllPanels";
+}
+
+<h2>@ViewBag.panel</h2>
+<b>Apply as a</b>
+<button>@Html.ActionLink("Candidate", "RequestRegister", "Home", new { appliedas = "candidate", panel = ViewBag.panel },null)</button>
+<button>@Html.ActionLink("Voter", "RequestRegister", "Home", new { appliedas = "voter", panel = ViewBag.panel },null)</button>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Candidates List</h2>
+        <table class="jumbotron1">
+            <tr>
+                <td style="width:100px"><input type="text" readonly value="Name" /></td>
+                @*<td style="width:100px" align="center"><b><i>Verify</i></b></td>*@
+            </tr>
+            @foreach (var i in ViewBag.candidates)
+            {
+            <tr><td>@i.Candidate_Id</td></tr>
+            }
+        </table>
+    </div>
+    <div class="col-md-4">
+        <h2>Poll</h2>
+        
+            <table class="jumbotron1">
+                <tr>
+                    <td style="width:100px"><b><i>Name</i></b></td>
+                    @*<td style="width:100px" align="center"><b><i>Vote</i></b></td>*@
+                    <td style="width:100px" align="center"><b><i>Result</i></b></td>
+                </tr>
+                @foreach (var i in ViewBag.candidates)
+                {
+                    <tr>
+                    <td>@i.Candidate_Id</td>
+                    <td align="center"><input type="text" readonly size="5" value=@i.Result /></td>
+                </tr>
+                     
+                }
+            </table>
+        
+    </div>
+    <div class="col-md-4">
+        <h2>Voters List</h2>
+        <table class="jumbotron1">
+            <tr>
+                <td style="width:100px"><input type="text" readonly value="Name" /></td>
+                @*<td style="width:100px" align="center"><b><i>Verify</i></b></td>*@
+            </tr>
+            @foreach(var i in ViewBag.voters)
+            {
+                <tr>
+                <td>@i</td>
+                </tr>
+                 
+            }
+         </table>
+    </div>
+</div>
+
